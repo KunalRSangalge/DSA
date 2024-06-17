@@ -16,16 +16,10 @@ int main()
     {
         mid=(s+e)/2;
 
-        if(a[0]<a[n-1])
-        {cout<<a[0];exit(0);}
+        if(a[mid]>a[e])
+        s=mid+1;
         else
-        {
-            if(a[mid]>a[0])
-            s=mid+1;
-            else
-            e=mid;
-        }
-        
+        e=mid;        
     }
     cout<<a[s];
 }
