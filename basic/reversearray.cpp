@@ -19,10 +19,7 @@ int main()
 
     while(li<=ri)
     {
-        int t=a[li];
-        a[li]=a[ri];
-        a[ri]=t;
-
+        swap(a[li],a[ri]);
         li++;ri--;
     }
     for(int i=0;i<n;i++)
