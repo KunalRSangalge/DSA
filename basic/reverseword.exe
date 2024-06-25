@@ -1,44 +1,20 @@
-//TLE
-//reverse whole string then rev each word
 class Solution {
-private:
-    string final(string str)
-    {
-        int j[10000],k=1;
-        j[0]=0;
-        for(int i=1;i<str.length();i++)
-        {
-            if(str[i]==' ' || str[i-1]==' ')
-            {j[k]=i-1;k++;}
-        }
-        j[k]=str.length()-1;
-        int i=0;
-        while(k>0)
-        {
-           int e=j[k],s=j[k-1];
-           while(s<=e)
-           swap(str[s],str[e]);
-
-           k--;           
-        }
-        return str;
-    }
 public:
     string reverseWords(string s) {
-        string temp=""; 
-        int j=0;       
-        for(int i=s.length()-1;i>=0;i--)
+        int n=s.length();
+        int i=n-1;
+        string ans="";
+        while(i>=0 && s[i]==' ')i--;
+        if(i<0)return "";
+        int j=i;
+        while(i>=0)
         {
-            if(s[i]!=' ')
-            {
-                temp[j]=s[i];
-                j++;
-            }
-            else if((i!=0 && i!=s.length()-1) && s[i+1]!=' ')
-            {
-                temp.push_back(' ');
-            }
+            while(i>=0 && s[i]!=' ')i--;
+            if(!ans.empty())ans.push_back(' ');
+            ans+=s.substr(i+1,j-i);
+            while(i>=0 && s[i]==' ')i--;
+            j=i;
         }
-        return final(temp);
+        return ans;
     }
 };
