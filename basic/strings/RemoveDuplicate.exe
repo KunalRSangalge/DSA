@@ -1,0 +1,22 @@
+//if s="azxxzy" output should be s="ay"
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        int i=0,j=1;
+        while(j<s.length())
+        {
+            if(s[i]==s[j])
+            {
+                s.erase(i,2);
+                i=0;
+                if(s.length()>1)
+                j=1;
+                else
+                return s;
+            }
+            else
+            {i++;j++;}
+        }
+        return s;
+    }
+};
