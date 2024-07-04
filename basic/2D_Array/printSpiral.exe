@@ -1,60 +1,55 @@
+#include<iostream>
+#include<vector>
+using namespace std;
 class Solution {
 public:
-    vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int i = 0, j = 0, imin = 0, jmin = 0, imax = matrix.size(),
-            jmax = matrix[0].size(), k = 0;
-        vector<int> a;
-
-        while (k < (matrix.size() * matrix[0].size())) {
-            for (; j < jmax; j++) {
-                a.push_back(matrix[i][j]);
-                k++;
-                if (k >= (matrix.size() * matrix[0].size()))
-                    break;
+    vector<int> spiralOrder(vector<vector<int> >& matrix) {
+        
+        
+        vector<int> ans;
+        int row = matrix.size();
+        int col = matrix[0].size();
+        
+        int count = 0;
+        int total = row*col;
+        
+        //index initialisation
+        int startingRow = 0;
+        int startingCol = 0;
+        int endingRow = row-1;
+        int endingCol = col-1;
+        
+        
+        while(count < total) {
+            
+            //print starting row
+            for(int index = startingCol; count < total && index<=endingCol; index++) {
+                ans.push_back(matrix[startingRow][index]);
+                count++;
             }
-            if (k >= (matrix.size() * matrix[0].size()))
-                break;
-            j--;
-            jmax--;
-            i++;
-
-            for (; i < imax; i++) {
-                a.push_back(matrix[i][j]);
-                k++;
-                if (k >= (matrix.size() * matrix[0].size()))
-                    break;
+            startingRow++;
+            
+            //print ending column
+            for(int index = startingRow; count < total && index<=endingRow; index++) {
+                ans.push_back(matrix[index][endingCol]);
+                count++;
             }
-            if (k >= (matrix.size() * matrix[0].size()))
-                break;
-            i--;
-            imax--;
-            j--;
-
-            for (; j >= jmin; j--) {
-                a.push_back(matrix[i][j]);
-                k++;
-                if (k >= (matrix.size() * matrix[0].size()))
-                    break;
+            endingCol--;
+            
+            //print ending row
+            for(int index = endingCol; count < total && index>=startingCol; index--) {
+                ans.push_back(matrix[endingRow][index]);
+                count++;
             }
-            if (k >= (matrix.size() * matrix[0].size()))
-                break;
-            j++;
-            i--;
-            jmin++;
-
-            for (; i > imin; i--) {
-                a.push_back(matrix[i][j]);
-                k++;
-                if (k >= (matrix.size() * matrix[0].size()))
-                    break;
+            endingRow--;
+            
+            //print starting column
+            for(int index = endingRow; count < total && index>=startingRow; index--) {
+                ans.push_back(matrix[index][startingCol]);
+                count++;
             }
-            if (k >= (matrix.size() * matrix[0].size()))
-                break;
-            i++;
-            j++;
-            imin++;
-        }
-
-        return a;
+            startingCol++;
+        } 
+        return ans;
     }
 };
