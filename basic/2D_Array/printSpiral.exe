@@ -1,0 +1,60 @@
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int i = 0, j = 0, imin = 0, jmin = 0, imax = matrix.size(),
+            jmax = matrix[0].size(), k = 0;
+        vector<int> a;
+
+        while (k < (matrix.size() * matrix[0].size())) {
+            for (; j < jmax; j++) {
+                a.push_back(matrix[i][j]);
+                k++;
+                if (k >= (matrix.size() * matrix[0].size()))
+                    break;
+            }
+            if (k >= (matrix.size() * matrix[0].size()))
+                break;
+            j--;
+            jmax--;
+            i++;
+
+            for (; i < imax; i++) {
+                a.push_back(matrix[i][j]);
+                k++;
+                if (k >= (matrix.size() * matrix[0].size()))
+                    break;
+            }
+            if (k >= (matrix.size() * matrix[0].size()))
+                break;
+            i--;
+            imax--;
+            j--;
+
+            for (; j >= jmin; j--) {
+                a.push_back(matrix[i][j]);
+                k++;
+                if (k >= (matrix.size() * matrix[0].size()))
+                    break;
+            }
+            if (k >= (matrix.size() * matrix[0].size()))
+                break;
+            j++;
+            i--;
+            jmin++;
+
+            for (; i > imin; i--) {
+                a.push_back(matrix[i][j]);
+                k++;
+                if (k >= (matrix.size() * matrix[0].size()))
+                    break;
+            }
+            if (k >= (matrix.size() * matrix[0].size()))
+                break;
+            i++;
+            j++;
+            imin++;
+        }
+
+        return a;
+    }
+};
