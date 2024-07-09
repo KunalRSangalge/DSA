@@ -1,5 +1,6 @@
 Checking number of prime numbers upto n
 My solution (TLE) - because we check all numbers from range [2,n-1]
+sieve of erastothenes
 
 class Solution {
 private:
