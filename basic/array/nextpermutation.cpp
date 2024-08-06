@@ -20,3 +20,5 @@ int main(){
     nextPermutation(arr);
     for(int i=0;i<arr.size();i++) cout<<arr[i];
 }
+
+//can use direct : next_permutation(nums.begin(),nums.end());
