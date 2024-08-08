@@ -5,4 +5,8 @@ Here are some resources that I found helpful during my learning journey:<br><br>
 <b>Websites:</b><br>
 [Geek for Geeks](https://www.geeksforgeeks.org/)<br>
 [LeetCode](https://leetcode.com/)<br>
-[HackerRank](https://www.hackerrank.com/dashboard)<br>
+[HackerRank](https://www.hackerrank.com/dashboard)<br><br>
+
+<b>Youtube channels:</b><br>
+[CodeHelp](https://www.youtube.com/@CodeHelp)<br>
+[Striver](https://www.youtube.com/@takeUforward)<br>
