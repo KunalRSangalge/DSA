@@ -1,60 +1,39 @@
 #include<bits/stdc++.h>
 using namespace std;
-//this is right but TLE
-void solve(int a[],int n,int m,int sum,vector<int>&ans){
-    if(n<0) return ;
-    if(n==0){
-        ans[0]=max(ans[0],sum);
-        ans[1]=min(ans[1],sum);return;
-    }
-    for(int i=0;i<m;i++){
-        if(a[i]>0){
-        sum+=a[i];
-        a[i]--;
-        solve(a,n-1,m,sum,ans);
-        a[i]++;
-        sum-=a[i];}
-    }
-
-}
-//This function does not take all cases
-// void solve(int a[],int n,int m, int idx,int sum,vector<int>&ans){
-//     //base case
-//     if(n<0) return;
-//     if(n==0){
-//         ans[0]=max(ans[0],sum);
-//         ans[1]=min(ans[1],sum);
-//         return;
-//     }
-//     if(idx>=m){
-//         return;
-//     }
-    
-//         //include
-//         if(a[idx]!=0){
-//            // sum+=a[idx];
-//           //  int t=a[idx];
-//             a[idx]--;
-//             solve(a,n-1,m,idx,sum+a[idx],ans);
-//           //  sum-=t;
-//             a[idx]++;
-//         }
-        
-        
-//         //exclude
-//         solve(a,n,m,idx+1,sum,ans);   
-// }
 int main(){
     int n,m;
     cin>>n>>m;
-    int a[m];
+    int a[m],maxi=0,mini=0,idx1=0,idx2=m-1;
     for(int i=0;i<m;i++)cin>>a[i];
-    int sum=0;
-    vector<int>ans;
-    ans.push_back(0);
-    ans.push_back(INT_MAX);
-    //solve(a,n,m,0,sum,ans);
-    solve(a,n,m,0,ans);
-    cout<<ans[0]<<" "<<ans[1];
-    
+    int b[m];
+    for(int i=0;i<m;i++)b[i]=a[i];
+    sort(a,a+m);
+    int temp=n;
+    //min
+    while(temp){
+        sort(a,a+m);
+        if(a[idx1]!=0)
+        {
+            mini+=a[idx1];
+            a[idx1]--;
+            temp--;
+        }
+        else{
+            idx1++;
+        }
+    }
+    //max
+    temp=n,idx1=0,idx2=m-1;
+    while(temp){
+        sort(b,b+m);
+        if(b[idx2]!=0){
+            maxi+=b[idx2];
+            b[idx2]--;
+            temp--;
+        }
+        else{
+            idx2--;
+        }
+    }
+    cout<<maxi<<" "<<mini;
 }
