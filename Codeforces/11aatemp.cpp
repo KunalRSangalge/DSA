@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 #define ll long long int
-#define N 1e12
+#define N 1e9
 using namespace std;
 vector<bool>prime(N+1,true);
 // O(NloglogN) sieve of erastosthanes
