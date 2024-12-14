@@ -1,5 +1,3 @@
-//correct using observation
-
 #include<bits/stdc++.h>
 #define ll long long int
 #define N 1e9
@@ -33,21 +31,29 @@ void yes(){
 void no(){
     cout<<"NO"<<endl;
 }
+void check(ll a[], ll b[], ll maxb, int i){
+
+}
 int main(){
     int t;
     cin>>t;
     while(t--){
-        ll n;
-        cin>>n;
-        string s;
-        cin>>s;
-        set<char>ans;
-        int count=0;
-        for(int i=0;i<n;i++){
-            if(ans.count(s[i]))continue;
-            else count+=(n-i);
-            ans.insert(s[i]);
+        ll n,k;
+        cin>>n>>k;
+        ll a[n],b[n];
+        for(ll i=0;i<n;i++){
+            cin>>a[i];
         }
-        cout<<count<<endl;
+        for(ll i=0;i<n;i++){
+            cin>>b[i];
+        }
+
+        ll sum=0,ans=0,maxb=0;
+        for(int i=0;i<min(n,k);i++){
+            sum+=a[i];
+            maxb=max(maxb,b[i]);
+            ans=max(ans,sum+maxb*(k-i-1));
+        }
+        cout<<ans<<endl;
     }
 }

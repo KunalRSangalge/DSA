@@ -1,5 +1,3 @@
-//correct using observation
-
 #include<bits/stdc++.h>
 #define ll long long int
 #define N 1e9
@@ -37,17 +35,14 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        ll n;
-        cin>>n;
-        string s;
-        cin>>s;
-        set<char>ans;
-        int count=0;
-        for(int i=0;i<n;i++){
-            if(ans.count(s[i]))continue;
-            else count+=(n-i);
-            ans.insert(s[i]);
-        }
-        cout<<count<<endl;
+        long double x,y,k;
+        cin>>x>>y>>k;
+        long double coal,stick;
+        ll ans;
+        coal = y*k;
+        stick = coal + k - 1;
+        ans = k + ceil(stick/(x-1));
+        cout<<ans<<endl;
+        
     }
 }

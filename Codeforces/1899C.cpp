@@ -1,5 +1,3 @@
-//correct using observation
-
 #include<bits/stdc++.h>
 #define ll long long int
 #define N 1e9
@@ -39,15 +37,21 @@ int main(){
     while(t--){
         ll n;
         cin>>n;
-        string s;
-        cin>>s;
-        set<char>ans;
-        int count=0;
-        for(int i=0;i<n;i++){
-            if(ans.count(s[i]))continue;
-            else count+=(n-i);
-            ans.insert(s[i]);
+        int a[n];
+        for(ll i=0;i<n;i++){
+            cin>>a[i];
         }
-        cout<<count<<endl;
-    }
+        int mn=min(0,a[0]),ans=a[0],sum=a[0];
+        for(int i=1;i<n;i++){
+            if(abs(a[i-1]%2)==abs(a[i]%2)){
+                mn=0;
+                sum=0;
+            }
+                sum+=a[i];
+                ans=max(ans,sum-mn);
+                mn=min(mn,sum);
+            
+        }
+        cout<<ans<<endl;
+}
 }
