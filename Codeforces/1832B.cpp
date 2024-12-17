@@ -1,4 +1,3 @@
-//TLE using O(N*Q)
 #include<bits/stdc++.h>
 #define ll long long int
 #define N 1e9
@@ -36,35 +35,26 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        ll n,q;
-        cin>>n>>q;
-        ll a[n],x[q];
-        for(ll i=0;i<n;i++){
+        int n,k;
+        cin>>n>>k;
+        int a[n+1];
+        for(int i=0; i<n ;i++) 
+        {
             cin>>a[i];
         }
-        for(ll i=0;i<q;i++){
-            cin>>x[i];
+        ll maxi = 0;
+        sort(a, a+n);
+        ll sum = 0;
+        ll b[n];
+        for(int i=0; i<n; i++) 
+        {
+            sum += a[i];
+            b[i+1] = b[i]+a[i];
         }
-        vector<int>check(31,-1);
-        vector<int>order;
-        for(int i=0;i<q;i++){
-            if(check[x[i]]==-1){
-                order.push_back(x[i]);
-                check[x[i]]=0;
-            }
+        for(int i=0; i<=k; i++) 
+        {
+            maxi = max(maxi, b[n-i]-b[2*(k-i)]);
         }
-
-        for(int i=0;i<n;i++){
-            for(auto x : order){
-                int temp = pow(2,x);
-                if(a[i]%temp==0){
-                    a[i]+=pow(2,x-1);
-                }
-            }
-        }
-
-        for(int i=0;i<n;i++){
-            cout<<a[i]<<" ";
-        }cout<<endl;
+        cout<<maxi<<endl;
     }
 }

@@ -1,17 +1,11 @@
 #include<bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 #include<cstdio>
-using namespace __gnu_pbds;
+
 using namespace std;
 #define ll int64_t
  
-// Ordered Set Tree
-typedef tree<ll, null_type, less_equal<ll>,
-             rb_tree_tag,
-             tree_order_statistics_node_update>
-    ordered_set;
- 
+
 //2314169
  
 #define gc getchar_unlocked
@@ -85,11 +79,7 @@ const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
     return result;
 }*/
  
-void myerase(ordered_set &t, int v){
-    int rank = t.order_of_key(v);//Number of elements that are less than v in t
-    ordered_set::iterator it = t.find_by_order(rank); //Iterator that points to the (rank+1)th element in t
-    t.erase(it);
-}
+
 class segTree{
     private :
     vector<ll>tree;
