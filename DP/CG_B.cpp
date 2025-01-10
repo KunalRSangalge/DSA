@@ -59,15 +59,15 @@ int main(){
     // for(auto x:mpp){
     //     cout<<x.first<<x.second<<endl;
     // }
-    int j=0;
+    int i=0,j=0;
     int ans=0;
-    for(int i=0;i<n;i++){
-        if(mpp[s[i]]) j=i;
-        while(i<n && mpp[s[i]]){
-            i++;
+    while(i<n){
+        if(mpp[s[i]]) i++;
+        else{
+            int x = i-j;
+            ans+= (x*(x+1))/2;
+            
         }
-        int x = i-j;
-        ans+=((x)*(x+1))/2;
     }
     cout<<ans;
 }
