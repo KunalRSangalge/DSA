@@ -35,19 +35,12 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        ll n,k;
-        cin>>n>>k;
-        ll a[n],x[n];
-        for(ll i=0;i<n;i++){
-            ll temp;
-            cin>>temp;
-            if(temp%k==0) a[i]=temp/k;
-            else a[i]=temp/k+1;
+        ll n,a,b;
+        cin>>n>>a>>b;
+        ll x = abs(a-b)-1;
+        if(x%2==0){
+            no();
         }
-        // for(int i=0;i<n;i++)cout<<a[i];
-        for(ll i=0;i<n;i++){
-            cin>>x[i];
-        }
-        
+        else yes();
     }
 }

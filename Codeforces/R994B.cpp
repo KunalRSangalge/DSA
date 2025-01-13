@@ -72,7 +72,7 @@ int main(){
             int j=n-1;
             while(j!=-1 && s[j]!='s')j--;
 
-            if(i==n || j==0) yes();
+            if(i==n || j==-1) yes();
             else if(i<j)no();
             else{
                 if(check(i+1,j+1,n))yes();
