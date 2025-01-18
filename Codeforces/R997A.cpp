@@ -35,31 +35,18 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        vector<int>f(2,0);
-        ll n = s.size(),sum=0;
-        while(n--){
-            if(s[n]=='2')f[0]++;
-            if(s[n]=='3')f[1]++;
-            sum+=s[n]-'0';
+        ll n,m;
+        cin>>n>>m;
+        ll x[n],y[n];
+        ll xsum=0,ysum=0;
+        for(ll i=0;i<n;i++){
+            cin>>x[i]>>y[i];
+            xsum+=x[i];
+            ysum+=y[i];
+
         }
-        if(sum%9==0){
-            yes();continue;
-        }
-        // ll rem = (sum/9 + 1)*9 - sum;
-        // cout<<rem<<endl;
-        bool flag=false;
-        for(int i=0;i<=min(10,f[0]);i++){
-            for(int j=0;j<=min(10,f[1]);j++){
-                if((sum+2*i+6*j)%9==0){
-                    flag=true;
-                    break;
-                }
-            }
-            if(flag)break;
-        }
-        if(flag)yes();
-        else no();
+        // cout<<xsum<<ysum<<endl;
+        ll ans = xsum*2+ysum*2+(m-x[0])*2+(m-y[0])*2;
+        cout<<ans<<endl;
     }
 }

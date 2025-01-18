@@ -35,31 +35,23 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        vector<int>f(2,0);
-        ll n = s.size(),sum=0;
-        while(n--){
-            if(s[n]=='2')f[0]++;
-            if(s[n]=='3')f[1]++;
-            sum+=s[n]-'0';
+        ll n;
+        cin>>n;
+        if(n==6){
+            cout<<1<<" "<<1<<" "<<2<<" "<<3<<" "<<1<<" "<<2<<endl;
         }
-        if(sum%9==0){
-            yes();continue;
-        }
-        // ll rem = (sum/9 + 1)*9 - sum;
-        // cout<<rem<<endl;
-        bool flag=false;
-        for(int i=0;i<=min(10,f[0]);i++){
-            for(int j=0;j<=min(10,f[1]);j++){
-                if((sum+2*i+6*j)%9==0){
-                    flag=true;
-                    break;
-                }
+        else{
+            ll m = (n+1)/2;
+            for(int i=1;i<=m;i++){
+                cout<<i<<" ";
             }
-            if(flag)break;
+            int i=1;
+            ll rem = n-m;
+            while(rem--){
+                cout<<i<<" ";
+                i++;
+            }
+            cout<<endl;
         }
-        if(flag)yes();
-        else no();
     }
 }
