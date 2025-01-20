@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#define ll long long int
+#define ll int64_t
 #define N 1e9
 using namespace std;
 vector<bool>prime(N+1,true);
