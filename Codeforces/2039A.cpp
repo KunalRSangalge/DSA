@@ -35,10 +35,13 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        ll a,b;
-        cin>>a>>b;
-        ll y = __gcd(a,b);
-        ll x = (a*b)/y;
-        cout<<x<<endl;
+        ll n;
+        cin>>n;
+        ll a[n];
+        for(ll i=0;i<n;i++){
+            a[i]=2*i+1;
+        }
+        for(int i=0;i<n;i++)cout<<a[i]<<" ";
+        cout<<endl;
     }
 }

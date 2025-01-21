@@ -35,10 +35,23 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        ll a,b;
-        cin>>a>>b;
-        ll y = __gcd(a,b);
-        ll x = (a*b)/y;
-        cout<<x<<endl;
+        ll n,m,k;
+        cin>>n>>m>>k;
+        string s;
+        cin>>s;
+        ll cnt=0,ans=0;
+        bool flag=true;
+        int i=0;
+        while(i<n){
+            if(s[i]=='0')cnt++;
+            else cnt=0;
+            if(cnt==m){
+                cnt=0;
+                ans++;
+                i+=k;
+            }
+            else i++;
+        }
+        cout<<ans<<endl;
     }
 }

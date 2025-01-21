@@ -35,10 +35,21 @@ int main(){
     int t;
     cin>>t;
     while(t--){
-        ll a,b;
-        cin>>a>>b;
-        ll y = __gcd(a,b);
-        ll x = (a*b)/y;
-        cout<<x<<endl;
+        ll n;
+        cin>>n;
+        ll a[n],even=0,odd=0;
+        for(ll i=0;i<n;i++){
+            cin>>a[i];
+            if(a[i]%2)odd++;
+            else even++;
+        }
+        if(even==0){
+            if(odd==1)cout<<0<<endl;
+            else cout<<odd-1<<endl;
+        }
+        else{
+            cout<<odd+1<<endl;
+        }
+        
     }
 }

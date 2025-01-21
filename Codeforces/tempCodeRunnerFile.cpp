@@ -1,4 +1,3 @@
-for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++)cout<<v[i][j]<<" ";
-            cout<<endl;
-        }
+for(auto x : mpp){
+                        if(x.second>1)flag1=false;
+                    }
