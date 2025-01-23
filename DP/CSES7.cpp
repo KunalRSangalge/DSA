@@ -92,15 +92,16 @@ int main(){
         input(s,n);
         vector<vector<ll>>dp(n+1,vector<ll>(x+1,0));
         // for(int i=0;i<n;i++)dp[i][0]=0;
-        
+        vector<ll>prev(x+1,0),curr(x+1,0);
         for(int i=1;i<=n;i++){
             for(int j=1;j<=x;j++){
                 ll pick=0,notpick=0;
-                if(j>=h[i-1])pick=s[i-1]+dp[i-1][j-h[i-1]];
-                notpick = dp[i-1][j];
-                dp[i][j]=max(pick,notpick);
+                if(j>=h[i-1])pick=s[i-1]+prev[j-h[i-1]];
+                notpick = prev[j];
+                curr[j]=max(pick,notpick);
             }
+            prev=curr;
         }
-        cout<<dp[n][x]<<endl;   
+        cout<<prev[x]<<endl;   
     }
 }
