@@ -83,8 +83,35 @@ ll log(ll a,ll l){
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    cin>>t;
+    // cin>>t;
     while(t--){
-        
+        ll n;
+        cin>>n;
+        ll a[n];
+        input(a,n);
+        ll sum=0;
+        // for(int i=0;i<n;i++)sum+=a[i];
+        sum=accumulate(a,a+n,0LL);
+        vector<ll>freq(1000001,0);
+        for(int i=0;i<n;i++)freq[a[i]]++;
+        // cout<<sum<<endl;
+        ll count=0;
+        ll maxi=1e6;
+        vector<ll>ans;
+        for(int i=0;i<n;i++){
+            sum-=a[i];
+            freq[a[i]]--;
+            if(sum%2==0){
+                if(sum/2 <= maxi){
+                    if(freq[sum/2]>0)ans.pb(i+1);
+                }
+            }
+            sum+=a[i];
+            freq[a[i]]++;
+        }
+        cout<<ans.size()<<endl;
+        for(auto x : ans)cout<<x<<" ";
+        cout<<endl;
+
     }
 }

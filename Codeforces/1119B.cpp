@@ -83,8 +83,24 @@ ll log(ll a,ll l){
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    cin>>t;
+    // cin>>t;
     while(t--){
-        
+        ll n,h;
+        cin>>n>>h;
+        ll a[n];
+        input(a,n);
+        ll ans=0,currh=0,curr=0;
+        for(int i=1;i<=n;i++){
+            sort(a,a+i,greater<ll>());
+            for(int j=0;j<i;j++){
+                if(j%2==0)currh+=a[j];
+                if(currh>h)break;
+                else curr++;
+            }
+            ans=max(ans,curr);
+            curr=0;
+            currh=0;
+        }
+        cout<<ans<<endl;
     }
 }
