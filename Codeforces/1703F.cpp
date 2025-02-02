@@ -41,7 +41,7 @@ void no() { cout<<"NO\n"; }
 uniform_int_distribution<int> uid(0, lim - 1);
     return uid(rang);
 }
-const ll mod =  998244353;
+const ll mod =  1e9+7;
 const ll N = 1e2+3,M=502;
 const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
 ll power(ll x, ll y, ll M=mod)
@@ -79,42 +79,42 @@ ll log(ll a,ll l){
     return ans;
 }
 
-ll fact(ll n){
-    ll ans=1;
-    while(n){
-        ans=(ans*n)%mod;
-        n--;
+ll f(vector<ll>&pidx,ll k){
+    ll n = pidx.size();
+    ll low=0,high=n-1;
+    while(low<=high){
+        ll mid = (low+high)/2;
+        if(pidx[mid]<k){
+            low=mid+1;
+        }
+        else high=mid-1;
     }
-    return ans;
+    return low;
 }
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
-        while(i<n){
-            temp=0;
-            if(s[i]=='1'){
-                while(s[i]=='1'){
-                    temp++;
-                    i++;
-                }
-            }
-            else{
-                while(s[i]=='0'){
-                    temp++;
-                    i++;
-                }
-            }
-            if(temp>1){
-                j+=temp-1;
-                fac+=temp;
+        ll n;
+        cin>>n;
+        ll a[n];
+        input(a,n);
+        vector<ll>pidx;
+        vector<ll>num;
+        for(int i=0;i<n;i++){
+            if(a[i]<i+1){
+                pidx.push_back(i+1);
+                num.push_back(a[i]);
             }
         }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
+        // for(int i=0;i<pidx.size();i++)cout<<pidx[i]<<" ";cout<<endl;
+        // for(int i=0;i<num.size();i++)cout<<num[i]<<" ";cout<<endl;
+        ll ans=0;
+        for(int i=num.size()-1;i>=0;i--){
+            if(num[i]>pidx[0]) ans+=f(pidx,num[i]);
+        }
+        cout<<ans<<endl;
     }
 }

@@ -41,7 +41,7 @@ void no() { cout<<"NO\n"; }
 uniform_int_distribution<int> uid(0, lim - 1);
     return uid(rang);
 }
-const ll mod =  998244353;
+const ll mod =  1e9+7;
 const ll N = 1e2+3,M=502;
 const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
 ll power(ll x, ll y, ll M=mod)
@@ -79,42 +79,50 @@ ll log(ll a,ll l){
     return ans;
 }
 
-ll fact(ll n){
-    ll ans=1;
-    while(n){
-        ans=(ans*n)%mod;
-        n--;
+vector<ll> pf(int n){
+    vector<ll>v;
+    while(n%2==0){
+        v.push_back(2);
+        n/=2;
     }
-    return ans;
+    for(int i=3;i*i<=n;i+=2){
+        while(n%i==0){
+            v.push_back(i);
+            n/=i;
+        }
+    }
+    if(n>2)v.push_back(n);
+    return v;
 }
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
-        while(i<n){
-            temp=0;
-            if(s[i]=='1'){
-                while(s[i]=='1'){
-                    temp++;
-                    i++;
-                }
-            }
-            else{
-                while(s[i]=='0'){
-                    temp++;
-                    i++;
-                }
-            }
-            if(temp>1){
-                j+=temp-1;
-                fac+=temp;
+        ll n;
+        cin>>n;
+        ll a[n];
+        input(a,n);
+        bool flag2=true;
+        // for(int i=0;i<n-1;i++)if(a[i]!=a[i+1]){flag2=false;break;}
+        // if(flag2){yes();continue;}
+        vector<ll>v;
+        map<ll,ll>mpp;
+        for(int i=0;i<n;i++){
+            vector<ll>temp = pf(a[i]);
+            v.insert(v.end(),temp.begin(),temp.end());
+        }
+        // for(int i=0;i<v.size();i++)cout<<v[i]<<" ";cout<<endl;
+        for(int i=0;i<v.size();i++)mpp[v[i]]++;
+        bool flag=true;
+        for(auto x : mpp){
+            // cout<<x.second<<" ";
+            if(x.second%n){
+                flag=false;
+                break;
             }
         }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
-    }
+        if(flag)yes();
+        else no();
+    }   
 }

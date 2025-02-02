@@ -41,7 +41,7 @@ void no() { cout<<"NO\n"; }
 uniform_int_distribution<int> uid(0, lim - 1);
     return uid(rang);
 }
-const ll mod =  998244353;
+const ll mod =  1e9+7;
 const ll N = 1e2+3,M=502;
 const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
 ll power(ll x, ll y, ll M=mod)
@@ -79,42 +79,31 @@ ll log(ll a,ll l){
     return ans;
 }
 
-ll fact(ll n){
-    ll ans=1;
-    while(n){
-        ans=(ans*n)%mod;
-        n--;
-    }
-    return ans;
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
-        while(i<n){
-            temp=0;
-            if(s[i]=='1'){
-                while(s[i]=='1'){
-                    temp++;
-                    i++;
-                }
+        ll n;
+        cin>>n;
+        ll a[n];
+        input(a,n);
+        map<int,int>mpp;
+        for(int i=0;i<n;i++)mpp[a[i]]++;
+        // int curr=*min_element(a,a+n),currf=mpp[curr];
+        int curr=-1,currf=-1;
+        ll ans=0;
+        for(auto x : mpp){
+            if((curr+1)!=x.first){
+                ans+=x.second;
             }
-            else{
-                while(s[i]=='0'){
-                    temp++;
-                    i++;
-                }
+            else if(currf<x.second){
+                ans+=(x.second-currf);
             }
-            if(temp>1){
-                j+=temp-1;
-                fac+=temp;
-            }
+            curr=x.first;
+            currf=x.second;
         }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
+        cout<<ans<<endl;
     }
 }

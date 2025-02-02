@@ -41,7 +41,7 @@ void no() { cout<<"NO\n"; }
 uniform_int_distribution<int> uid(0, lim - 1);
     return uid(rang);
 }
-const ll mod =  998244353;
+const ll mod =  1e9+7;
 const ll N = 1e2+3,M=502;
 const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
 ll power(ll x, ll y, ll M=mod)
@@ -79,42 +79,29 @@ ll log(ll a,ll l){
     return ans;
 }
 
-ll fact(ll n){
-    ll ans=1;
-    while(n){
-        ans=(ans*n)%mod;
-        n--;
-    }
-    return ans;
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
+        ll n;
+        cin>>n;
         string s;
         cin>>s;
-        int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
-        while(i<n){
-            temp=0;
-            if(s[i]=='1'){
-                while(s[i]=='1'){
-                    temp++;
-                    i++;
-                }
-            }
-            else{
-                while(s[i]=='0'){
-                    temp++;
-                    i++;
-                }
-            }
-            if(temp>1){
-                j+=temp-1;
-                fac+=temp;
+        vector<ll>v(n+1,0);
+        for(int i=0;i<n;i++)if(s[i]=='1')v[i+1]=1;
+        ll cost[n+1];
+        for(int i=n;i>=1;i--){
+            for(int j=i;j<=n;j+=i){
+                if(v[j])break;
+                cost[j]=i;
             }
         }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
+        ll ans=0;
+        for(int i=1;i<=n;i++){
+            if(!v[i]) ans+=cost[i];
+        }
+        cout<<ans<<endl;
     }
 }

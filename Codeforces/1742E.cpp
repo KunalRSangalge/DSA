@@ -41,7 +41,7 @@ void no() { cout<<"NO\n"; }
 uniform_int_distribution<int> uid(0, lim - 1);
     return uid(rang);
 }
-const ll mod =  998244353;
+const ll mod =  1e9+7;
 const ll N = 1e2+3,M=502;
 const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
 ll power(ll x, ll y, ll M=mod)
@@ -79,42 +79,51 @@ ll log(ll a,ll l){
     return ans;
 }
 
-ll fact(ll n){
-    ll ans=1;
-    while(n){
-        ans=(ans*n)%mod;
-        n--;
-    }
-    return ans;
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
+        ll n,q;
+        cin>>n>>q;
+        ll a[n],k[q];
+        input(a,n);
+        input(k,q);
+        ll i=0,j=0,curr=0;
+        ll step=0;
+        vector<pair<ll,ll>>v;
         while(i<n){
-            temp=0;
-            if(s[i]=='1'){
-                while(s[i]=='1'){
-                    temp++;
-                    i++;
-                }
+            int temp=a[i];
+            curr=a[i];
+            while(i<n && temp>=curr){
+                step+=a[i];
+                i++;
+                if(i<n)curr=a[i];
             }
-            else{
-                while(s[i]=='0'){
-                    temp++;
-                    i++;
-                }
-            }
-            if(temp>1){
-                j+=temp-1;
-                fac+=temp;
-            }
+            v.push_back(make_pair(temp,step));
         }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
+        vector<pair<ll,ll>>kk;
+        for(int i=0;i<q;i++){
+            kk.push_back(make_pair(k[i],i));
+        }
+        sort(kk.begin(),kk.end());
+        i=0,j=0;
+        int s = v.size();
+        //check
+        // for(int i=0;i<s;i++)cout<<v[i].first<<v[i].second<<endl;
+        // for(int i=0;i<q;i++)cout<<kk[i].first<<kk[i].second<<endl;
+
+        ll ans[q];
+        while(j<q){
+            while(i<s-1 && kk[j].first>v[i].first)i++;
+            if(i>0 && kk[j].first<v[i].first)i--;
+            if(i==0 && kk[j].first<v[i].first){ans[kk[j].second]=0;j++;continue;}
+            ll x = kk[j].second;
+            ans[x]=v[i].second;
+            j++;
+        }
+        for(int i=0;i<q;i++)cout<<ans[i]<<" ";
+        cout<<endl;
     }
 }

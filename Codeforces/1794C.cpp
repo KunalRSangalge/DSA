@@ -41,7 +41,7 @@ void no() { cout<<"NO\n"; }
 uniform_int_distribution<int> uid(0, lim - 1);
     return uid(rang);
 }
-const ll mod =  998244353;
+const ll mod =  1e9+7;
 const ll N = 1e2+3,M=502;
 const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
 ll power(ll x, ll y, ll M=mod)
@@ -81,8 +81,8 @@ ll log(ll a,ll l){
 
 ll fact(ll n){
     ll ans=1;
-    while(n){
-        ans=(ans*n)%mod;
+    while(n>1){
+        ans*=n;
         n--;
     }
     return ans;
@@ -92,29 +92,31 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
-        while(i<n){
-            temp=0;
-            if(s[i]=='1'){
-                while(s[i]=='1'){
-                    temp++;
-                    i++;
+        ll n;
+        cin>>n;
+        ll a[n];
+        input(a,n);
+        ll ans=0;
+        vector<ll>v(n);
+        for(int i=n-1;i>=0;i--){
+            ll t=1;
+            ll temp=0;
+            ll count=0;
+            for(int j=i;j>=i-10;j--){
+                if(j>=0){
+                    t*=a[j];
+                    ll x = t/fact(i-j+1);
+                    temp = max(x,temp);
+                    if(x>=temp){
+                        count++;
+                    }
+                    else break;
                 }
             }
-            else{
-                while(s[i]=='0'){
-                    temp++;
-                    i++;
-                }
-            }
-            if(temp>1){
-                j+=temp-1;
-                fac+=temp;
-            }
+            v[i]=count;
         }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
+        for(int i=0;i<n;i++)cout<<v[i]<<" ";
+        cout<<endl;
     }
+    
 }

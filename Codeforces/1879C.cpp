@@ -87,6 +87,10 @@ ll fact(ll n){
     }
     return ans;
 }
+ll p(ll n, ll pick){
+    ll ans=1;
+    ll ans = divide(fact(n),fact(n-pick));
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
@@ -95,26 +99,26 @@ int main(){
         string s;
         cin>>s;
         int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
+        ll i=0,j=0,fac=1,temp=0;
         while(i<n){
             temp=0;
             if(s[i]=='1'){
-                while(s[i]=='1'){
+                while(i<n && s[i]=='1'){
                     temp++;
                     i++;
                 }
             }
             else{
-                while(s[i]=='0'){
+                while(i<n && s[i]=='0'){
                     temp++;
                     i++;
                 }
             }
             if(temp>1){
-                j+=temp-1;
-                fac+=temp;
+                j+=(temp-1);
+                fac*=fact(temp)%mod;
             }
         }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
+        cout<<j<<" "<<fac<<endl;
     }
 }

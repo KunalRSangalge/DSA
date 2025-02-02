@@ -41,7 +41,7 @@ void no() { cout<<"NO\n"; }
 uniform_int_distribution<int> uid(0, lim - 1);
     return uid(rang);
 }
-const ll mod =  998244353;
+const ll mod =  1e9+7;
 const ll N = 1e2+3,M=502;
 const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
 ll power(ll x, ll y, ll M=mod)
@@ -79,42 +79,27 @@ ll log(ll a,ll l){
     return ans;
 }
 
-ll fact(ll n){
-    ll ans=1;
-    while(n){
-        ans=(ans*n)%mod;
-        n--;
-    }
-    return ans;
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        string s;
-        cin>>s;
-        int n = s.size();
-        ll i=0,j=0,fac=0,temp=0;
-        while(i<n){
-            temp=0;
-            if(s[i]=='1'){
-                while(s[i]=='1'){
-                    temp++;
-                    i++;
-                }
-            }
-            else{
-                while(s[i]=='0'){
-                    temp++;
-                    i++;
-                }
-            }
-            if(temp>1){
-                j+=temp-1;
-                fac+=temp;
-            }
-        }
-        cout<<j<<" "<<fact(fac)%mod<<endl;
+        ll n;
+        cin>>n;
+        ll a[n],b[n];
+        input(a,n);
+        input(b,n);
+        ll c[n];
+        for(int i=0;i<n;i++)c[i]=a[i]-b[i];
+        ll maxi = *max_element(c,c+n);
+        ll maxif=0;
+        // for(int i=0;i<n;i++)if(c[i]==maxi)maxif++;
+        // cout<<maxif<<endl;
+        maxif = count(c,c+n,maxi);
+        cout<<maxif<<endl;
+        for(int i=0;i<n;i++)if(c[i]==maxi)cout<<i+1<<" ";
+        cout<<endl;
+
     }
 }
