@@ -92,7 +92,7 @@ int main(){
         sort(a,a+n);
         ll curr=1;
         ll ans=0;
-        for(int i=0;i<k-1;i++){
+        for(int i=1;i<k;i++){
             curr=1;
             for(int j=i;j<n;j++){
                 curr=lcm(curr,a[j]);

@@ -79,7 +79,21 @@ ll log(ll a,ll l){
     return ans;
 }
 
+void rotate(vector<int> &arr) {
+  int n = arr.size();
+  
+    // store the last element in a variable
+    int lastElement = arr[n-1];
 
+    // assign every value by its predecessor
+    for (int i = n - 1; i > 0; i--) {
+        arr[i] = arr[i - 1];
+    }
+
+    // first element will be assigned by last element
+    arr[0] = lastElement;
+    // for(int i=0;i<n;i++)cout<<arr[i];
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
@@ -87,52 +101,23 @@ int main(){
     while(t--){
         ll n;
         cin>>n;
-        ll a[n];
+        vector<int> a(n),b(n);
         input(a,n);
-        sort(a,a+n);
-        ll sum=0;
-        for(int i=0;i<n;i++)sum+=a[i];
+        input(b,n);
+        int c[n];
+        set<int>st;
         bool flag=false;
-
-        if(n==1){yes();continue;}
-        if(n%2==0){
-            ll l=n/2-1,r=n/2;
-            //median = l
-            ll x = a[l]*(n+1)-sum;
-            if(x<=a[l] && x>0)flag=true;
-
-            //median = r
-            x = a[r]*(n+1)-sum;
-            if(x>=a[r] && x<=1e5)flag=true;
-
-            //median = x
-            if(sum%n==0)x=sum/n;
-            if(x>0 && x>=a[l] && x<=a[r])flag=true;
-        }
-        else{
-            ll mid = n/2,x;
-            //median -> n/2,n/2+1
-            ll temp = (a[n/2]+a[n/2+1])*(n+1)-2*sum;
-            if(temp%2==0){
-                x=temp/2;
-                if(x>=a[n/2+1] && x<=1e5)flag=true;
+        for(int i=0;i<=n;i++){
+            next_permutation(a.begin(),a.end());
+            for(int j=0;j<n;j++){
+                c[j]=a[j]+b[j];
             }
-
-            //median ->n/2,n/2-1
-            temp = (a[n/2]+a[n/2-1])*(n+1)-2*sum;
-            if(temp%2==0){
-                x=temp/2;
-                if(x<=a[n/2-1] && x>0)flag=true;
-            }
-
-            //median -> n/2 and x
-            temp = 2*sum-(n+1)*a[n/2];
-            if(temp%(n-1)==0){
-                x=temp/(n-1);
-                if(x>=a[n/2-1] && x<=a[n/2+1])flag=true;
-            }
+            for(int i=0;i<n;i++)st.insert(c[i]);
+            if(st.size()>=3){flag=true;break;}
+            st.clear();
         }
         if(flag)yes();
-        else no();
+        else no();       
+
     }
 }

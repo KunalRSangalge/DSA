@@ -87,52 +87,29 @@ int main(){
     while(t--){
         ll n;
         cin>>n;
-        ll a[n];
-        input(a,n);
-        sort(a,a+n);
-        ll sum=0;
-        for(int i=0;i<n;i++)sum+=a[i];
-        bool flag=false;
-
-        if(n==1){yes();continue;}
-        if(n%2==0){
-            ll l=n/2-1,r=n/2;
-            //median = l
-            ll x = a[l]*(n+1)-sum;
-            if(x<=a[l] && x>0)flag=true;
-
-            //median = r
-            x = a[r]*(n+1)-sum;
-            if(x>=a[r] && x<=1e5)flag=true;
-
-            //median = x
-            if(sum%n==0)x=sum/n;
-            if(x>0 && x>=a[l] && x<=a[r])flag=true;
+        vector<vector<ll>>v(n,vector<ll>(n));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++)cin>>v[i][j];
         }
-        else{
-            ll mid = n/2,x;
-            //median -> n/2,n/2+1
-            ll temp = (a[n/2]+a[n/2+1])*(n+1)-2*sum;
-            if(temp%2==0){
-                x=temp/2;
-                if(x>=a[n/2+1] && x<=1e5)flag=true;
-            }
 
-            //median ->n/2,n/2-1
-            temp = (a[n/2]+a[n/2-1])*(n+1)-2*sum;
-            if(temp%2==0){
-                x=temp/2;
-                if(x<=a[n/2-1] && x>0)flag=true;
-            }
-
-            //median -> n/2 and x
-            temp = 2*sum-(n+1)*a[n/2];
-            if(temp%(n-1)==0){
-                x=temp/(n-1);
-                if(x>=a[n/2-1] && x<=a[n/2+1])flag=true;
+        
+        vector<ll>mpp(n,0);
+        for(int i=0;i<n;i++){
+            for(int j=n-1;j>=0;j--){
+                if(v[i][j]==1)mpp[i]++;
+                else break;
             }
         }
-        if(flag)yes();
-        else no();
-    }
+        ll ans=0;
+        sort(mpp.begin(),mpp.end());
+        // for(int i=0;i<n;i++)cout<<mpp[i]<<" ";
+        ll i=0;
+        while(i<n){
+            while(mpp[i]<ans)i++;
+            if(i<n)ans++;
+            i++;
+        }
+        if(n!=1)cout<<ans<<endl;
+        else cout<<1<<endl;
+    }   
 }
