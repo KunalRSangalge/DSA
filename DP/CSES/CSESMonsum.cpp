@@ -79,15 +79,16 @@ ll log(ll a,ll l){
     return ans;
 }
 
-ll f(vector<ll>&a,ll i,ll sum, vector<vector<ll>>&dp,set<ll>&ans){
+ll f(ll i,ll sum,vector<ll>&a,set<ll>&ans,vector<vector<ll>>&dp){
     if(i==a.size()){
         ans.insert(sum);
         return 0;
     }
-    
-    
-
-}
+    if(dp[i][sum]!=-1)return dp[i][sum];
+    ll pick = a[i]+f(i+1,sum+a[i],a,ans,dp);
+    ll notpick = f(i+1,sum,a,ans,dp);
+    return dp[i][sum]=pick+notpick;
+}   
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
@@ -99,6 +100,32 @@ int main(){
         input(a,n);
         ll sum=0;
         for(int i=0;i<n;i++)sum+=a[i];
+        vector<vector<bool>>dp(n+1,vector<bool>(sum+1,false));
+        // set<ll>ans;
+        // f(0,0,a,ans,dp);
+        // ans.erase(0);
+        // cout<<ans.size()<<"\n";
+        // for(auto it = ans.begin();it!=ans.end();it++){
+        //     cout<<*it<<" ";
+        // }
+        for(int i=0;i<=n;i++)dp[i][0]=true;
+        for(int i=1;i<=n;i++){
+            for(int j=0;j<=sum;j++){
+                if(j>=a[i-1]){
+                    dp[i][j]=dp[i-1][j-a[i-1]]||dp[i-1][j];
+                }
+                else dp[i][j]=dp[i-1][j];
+            }
+        }
+
+        ll count=0;
+        for(int j=1;j<=sum;j++){
+            if(dp[n][j])count++;
+        }
+        cout<<count<<endl;
+        for(int j=1;j<=sum;j++){
+            if(dp[n][j])cout<<j<<" ";
+        }
         
     }
 }
