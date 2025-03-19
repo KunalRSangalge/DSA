@@ -79,36 +79,25 @@ ll log(ll a,ll l){
     return ans;
 }
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
-        }
-    }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    // cin>>t;
+    cin>>t;
     while(t--){
-        int n;
-        cin>>n;
-        if(n%2){
-            n=(n+1)/2;
-            ll ans = n*(n+1)/2;
-            cout<<ans*4<<endl;
+        ll n,k;
+        cin>>n>>k;
+        if(n%2==0){
+            ll ans ;
+            if(n%(k-1)==0)ans=n/(k-1);
+            else ans=n/(k-1)+1;
+            cout<<ans<<endl;
         }
         else{
-            ll ans = (n/2+1)*(n/2+1);
+            n-=(k);
+            ll ans;
+            if(n%(k-1)==0)ans=n/(k-1)+1;
+            else ans=n/(k-1)+2;
             cout<<ans<<endl;
         }
     }

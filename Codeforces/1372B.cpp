@@ -79,37 +79,37 @@ ll log(ll a,ll l){
     return ans;
 }
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
+set<int> getdiv(ll n){
+    set<int>ans;
+    for(int i=2;i*i<=n;i++){
+        if(n%i==0){
+            ans.insert(i);
+            ans.insert(n/i);
         }
     }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
+    return ans;
 }
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    // cin>>t;
+    cin>>t;
     while(t--){
-        int n;
+        ll n;
         cin>>n;
-        if(n%2){
-            n=(n+1)/2;
-            ll ans = n*(n+1)/2;
-            cout<<ans*4<<endl;
+        ll ans=-1;
+        if(n%2==0){
+            cout<<n/2<<" "<<n/2<<endl;
+            continue;
         }
-        else{
-            ll ans = (n/2+1)*(n/2+1);
-            cout<<ans<<endl;
+        set<int>st=getdiv(n);
+        while(!st.empty()){
+            int x = *st.begin();
+            st.erase(st.begin());
+            if(x%2){
+                ans=max(ans,x);
+            }
         }
+        if(ans==-1)cout<<1<<" "<<n-1<<endl;
+        else cout<<ans<<" "<<n-ans<<endl;
     }
 }

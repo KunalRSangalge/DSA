@@ -78,38 +78,37 @@ ll log(ll a,ll l){
     }
     return ans;
 }
-
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
-        }
-    }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
-}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    // cin>>t;
+    cin>>t;
     while(t--){
-        int n;
-        cin>>n;
-        if(n%2){
-            n=(n+1)/2;
-            ll ans = n*(n+1)/2;
-            cout<<ans*4<<endl;
+        ll n,m;
+        cin>>n>>m;
+        vector<ll>a(m);
+        input(a,m);
+        sort(a.begin(),a.end());
+        vector<ll>presum(m);
+        for(int i=0;i<m;i++){
+            if(a[i]==n) a[i]--;
+            if(i==0)presum[i]=a[i];
+            else presum[i]=presum[i-1]+a[i];
         }
-        else{
-            ll ans = (n/2+1)*(n/2+1);
-            cout<<ans<<endl;
+        // for(int i=0;i<m;i++)cout<<presum[i]<<" ";cout<<endl;
+        ll ans=0;
+        for(int i=0;i<m-1;i++){
+            ll temp = n-a[i];
+            ll validx = lower_bound(a.begin()+i+1,a.end(),temp)-a.begin();
+            auto it = lower_bound(a.begin()+i+1,a.end(),temp);
+            // cout<<validx<<endl;
+            if(it==a.end())continue;
+            temp=max(temp,1);
+            ll x = presum[m-1]-presum[validx-1];
+            // cout<<x<<endl;
+            ans = ans + (x - (temp)*(m-validx) + m-validx)*2;
+            // cout<<ans<<endl;
+
         }
+        cout<<ans<<endl;
     }
 }
