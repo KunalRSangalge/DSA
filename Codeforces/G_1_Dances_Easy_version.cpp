@@ -79,27 +79,51 @@ ll log(ll a,ll l){
     return ans;
 }
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
-        }
-    }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    string s1 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 2 2 2 1 2 2 1 2 1 1 1 1 1 2 1 2 1 2 2 1 2 2 1 1 2 2 1 1 1 1 2 2 1 1 2 2 1 1";
-    string s2 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 1 1";
-    if(s1==s2)cout<<"ok";
-    else cout<<"no";
+    cin>>t;
+    while(t--){
+        ll n,m;
+        cin>>n>>m;
+        ll a[n];
+        a[0]=1;
+        for(int i=1;i<n;i++)cin>>a[i];
+        vector<int>b;
+        for(int i=0;i<n;i++){
+            int x;
+            cin>>x;
+            b.push_back(x);
+        }
+        sort(a,a+n);
+        sort(b.begin(),b.end());
+        vector<int>vis(n,0);
+        ll ans=0;
+        for(int i=0;i<n;i++){
+            ll low = 0, high = n-1;
+            ll idx=-1;
+            while(low<=high){
+                ll mid = (low+high)/2;
+                if(b[mid]>a[i]){
+                    if(!vis[mid]){
+                        idx=mid;
+                        high=mid-1;
+                    }
+                    else{
+                        low=mid+1;
+                    }
+                }
+                else low=mid+1;
+            }
+            if(idx!=-1){
+                vis[idx]=1;
+            }
+        }
+        // for(int i=0;i<n;i++)cout<<vis[i]<<" ";cout<<endl;
+        for(int i=0;i<n;i++){
+            if(!vis[i])ans++;
+        }
+        cout<<ans<<endl;
+    }
 }

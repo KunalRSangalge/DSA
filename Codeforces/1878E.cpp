@@ -79,27 +79,73 @@ ll log(ll a,ll l){
     return ans;
 }
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
+void fill_presum(vector<vector<ll>>&presum,ll a,ll idx){
+    string s = bitset<32>(a).to_string();
+    reverse(s.begin(),s.end());
+    ll j=0;
+    for(int i=0;i<30;i++){
+        ll num = s[i]-'0';
+        presum[idx][j]=presum[idx-1][j]+num;
+        j++;
+    }
+}
+bool check(vector<vector<ll>>presum,ll mid,ll l,ll k){
+    ll num=0;
+    for(int i=0;i<30;i++){
+        if((presum[mid][i]-presum[l-1][i])==(mid-l+1)){
+            num+=power(2,i);
         }
     }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
+    // cout<<mid<<" "<<num<<endl;
+    return num>=k;
 }
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    string s1 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 2 2 2 1 2 2 1 2 1 1 1 1 1 2 1 2 1 2 2 1 2 2 1 1 2 2 1 1 1 1 2 2 1 1 2 2 1 1";
-    string s2 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 1 1";
-    if(s1==s2)cout<<"ok";
-    else cout<<"no";
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        vector<ll>a(n);
+        input(a,n);
+        ll q;
+        cin>>q;
+        vector<pair<ll,ll>>qq;
+        for(int i=0;i<q;i++){
+            ll x,y;
+            cin>>x>>y;
+            qq.push_back({x,y});
+        }
+        vector<vector<ll>>presum(n+1,vector<ll>(30,0));
+        for(int i=0;i<30;i++){
+            presum[0][i]=0;
+        }
+        for(int i=0;i<n;i++) fill_presum(presum,a[i],i+1);
+        // for(int i=0;i<=n;i++){
+        //     for(int j=0;j<33;j++){
+        //         cout<<presum[i][j]<<" ";
+        //     }cout<<endl;
+        // }cout<<endl;
+
+        for(int i=0;i<q;i++){
+            ll l=qq[i].first,k=qq[i].second;
+            ll low=l,high=n,temp=-1;
+            
+            if(a[l-1]<k){cout<<-1<<" "; continue;}
+            while(low<=high){
+                ll mid = (high+low)/2;
+                ll num = 0;
+                for(int i=0;i<30;i++){
+                    if(presum[mid][i]-presum[l-1][i]==mid-l+1)num+=power(2,i);
+                }
+                if(num>=k){
+                    temp=max(temp,mid);
+                    low=mid+1;
+                }
+                else high=mid-1;
+            }
+            cout<<temp<<" ";
+        }      
+        cout<<endl;
+    }
 }

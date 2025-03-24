@@ -79,27 +79,37 @@ ll log(ll a,ll l){
     return ans;
 }
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
-        }
-    }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    string s1 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 2 2 2 1 2 2 1 2 1 1 1 1 1 2 1 2 1 2 2 1 2 2 1 1 2 2 1 1 1 1 2 2 1 1 2 2 1 1";
-    string s2 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 1 1";
-    if(s1==s2)cout<<"ok";
-    else cout<<"no";
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        ll l[n],r[n];
+        for(int i=0;i<n;i++){
+            cin>>l[i]>>r[i];
+        }
+        ll low=0,high=1e9;
+        while(low<high){
+            ll mid = (low+high)/2;
+            ll k = mid;
+            bool flag=true;
+            ll leftk=0,rightk=k;
+            for(int i=0;i<n;i++){
+                if(rightk<l[i] || leftk>r[i]){
+                    flag=false;
+                    break;
+                }
+                leftk=max(l[i],leftk);
+                rightk=min(r[i],rightk);
+                leftk=max(0ll,leftk-k);
+                rightk=rightk+k;
+            }
+            if(flag)high=mid;
+            else low=mid+1;
+        }
+        cout<<low<<endl;
+    }
 }

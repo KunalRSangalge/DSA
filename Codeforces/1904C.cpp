@@ -79,27 +79,40 @@ ll log(ll a,ll l){
     return ans;
 }
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
-        }
-    }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
-}
+
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    string s1 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 2 2 2 1 2 2 1 2 1 1 1 1 1 2 1 2 1 2 2 1 2 2 1 1 2 2 1 1 1 1 2 2 1 1 2 2 1 1";
-    string s2 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 1 1";
-    if(s1==s2)cout<<"ok";
-    else cout<<"no";
+    cin>>t;
+    while(t--){
+        ll n,k;
+        cin>>n>>k;
+        vector<ll>a(n);
+        input(a,n);
+        if(k>=3){cout<<0<<endl; continue;}
+        if(k==1){
+            sort(a.begin(),a.end());
+            ll ans=a[0];
+            for(int i=0;i<n;i++){
+                for(int j=i+1;j<n;j++){
+                    ans=min(abs(a[i]-a[j]),ans);
+                }
+            }
+            cout<<ans<<endl;
+        }
+        else{              
+            sort(a.begin(),a.end());
+            ll ans=a[0];
+            for(int i=0;i<n;i++){
+                for(int j=0;j<i;j++){
+                    ll diff = abs(a[i]-a[j]);
+                    ans=min(ans,diff);
+                    ll idx = lower_bound(a.begin(),a.end(),diff)-a.begin();
+                    if(idx<n)ans=min(ans,abs(a[idx]-diff));
+                    if(idx>0)ans=min(ans,abs(a[idx-1]-diff));
+                }
+            }
+            cout<<ans<<endl;
+        }
+    }
 }

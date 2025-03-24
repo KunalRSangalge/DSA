@@ -79,27 +79,69 @@ ll log(ll a,ll l){
     return ans;
 }
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
-        }
+bool pal(string s){
+    int i=0,j=s.size()-1;
+    while(i<j){
+        if(s[i]==s[j])return false;
+        i++;j--;
     }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
+    return true;
 }
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    string s1 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 2 2 2 1 2 2 1 2 1 1 1 1 1 2 1 2 1 2 2 1 2 2 1 1 2 2 1 1 1 1 2 2 1 1 2 2 1 1";
-    string s2 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 1 1";
-    if(s1==s2)cout<<"ok";
-    else cout<<"no";
+    cin>>t;
+    while(t--){
+        ll n;
+        cin>>n;
+        string s;
+        cin>>s;
+        ll open=0,close=0;
+        if(n%2){cout<<-1<<endl;continue;}
+
+        for(int i=0;i<n;i++){
+            if(s[i]==')')close++;
+            else open++;
+        }
+
+        if(open!=close){cout<<-1<<endl; continue;}
+        if(pal(s)){
+            cout<<1<<endl;
+            for(int i=0;i<s.size();i++)cout<<1<<" ";
+            cout<<endl;
+            continue;
+        }
+
+        vector<int>ans;
+        int curropen=0;
+        for(int i=0;i<n;i++){
+            if(s[i]=='('){
+                curropen++;
+                if(close>=curropen) {ans.push_back(1);}
+                else {ans.push_back(2);curropen--;}
+            }
+            if(s[i]==')'){
+                if(curropen){ans.push_back(1);curropen--;}
+                else ans.push_back(2);
+                close--;
+            }
+        }
+        ll count1=0,count2=0;
+        for(int i=0;i<n;i++){
+            if(ans[i]==1)count1++;
+            else count2++;
+        }
+        if(count1==0){
+            cout<<1<<endl;
+            for(int i=0;i<n;i++)cout<<1<<" ";cout<<endl;
+        }
+        else if(count2==0){
+            cout<<1<<endl;
+            for(int i=0;i<n;i++)cout<<ans[i]<<" ";cout<<endl;
+        }
+        else{
+            cout<<2<<endl;
+            for(int i=0;i<n;i++)cout<<ans[i]<<" ";cout<<endl;
+        }
+    }
 }
