@@ -87,29 +87,27 @@ ll log(ll a,ll l){
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    cin>>t;
+    // cin>>t;
     while(t--){
         ll n;
         cin>>n;
-        string s;
-        cin>>s;
-        vector<ll>idx;
+        vector<ll>a(n),b(n);
+        input(a,n);
+        input(b,n);
+        ll ans=0;
+        int j=0;
+        vector<ll>vis(n+1,0);
         for(int i=0;i<n;i++){
-            if(s[i]=='>')idx.push_back(i+1);
-        }
-        vector<ll>ans(n+1,-1);
-        ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
-            curr--;
-        }
-        for(int i=1;i<=n;i++){
-            if(ans[i]==-1){
-                ans[i]=curr;
-                curr--;
+            if(vis[a[i]])continue;
+            vis[a[i]]=1;
+            while(j<n && b[j]!=a[i]){
+                vis[b[j]]=1;
+                j++;
+                ans++;
             }
+            if(j==n)break;
+            j++;
         }
-        for(int i=1;i<=n;i++)cout<<ans[i]<<" ";
-        cout<<endl;
+        cout<<ans<<endl;
     }
 }

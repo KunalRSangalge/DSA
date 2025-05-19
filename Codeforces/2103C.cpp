@@ -83,33 +83,90 @@ ll log(ll a,ll l){
     return ans;
 }
 
+bool check(vector<ll>a,int k){
+    int more=0,less=0;
+    int l=-1,r=-1, n=a.size();
+    bool flag=false;
+    for(int i=0;i<n;i++){
+        if(a[i]>k)more++;
+        else less++;
+        if(less>=more){
+            if(i%2==0){
+                flag=true;l=i+1;break;
+            }
+            else{
+                l=i;break;
+            }
+        }
+    }
+    more=0,less=0;
+    for(int i=l+1;i<n;i++){
+        if(a[i]>k)more++;
+        else less++;
+        if(less>=more){
+            r=i;break;
+        }
+    }
+    if(l<n && l>=0 && l<r && r<n-1){
+        return true;
+    }
 
+    if(flag){
+        l--;
+        more=0,less=0;
+        for(int i=l+1;i<n;i++){
+            if(a[i]>k)more++;
+            else less++;
+            if(less>=more){
+                r=i;break;
+            }
+        }
+    }
+    if(l<n && l>=0 && l<r && r<n-1){
+        return true;
+    }
+    
+    return false;
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        ll n;
-        cin>>n;
-        string s;
-        cin>>s;
-        vector<ll>idx;
+        ll n,k;
+        cin>>n>>k;
+        vector<ll>a(n);
+        input(a,n);
+        bool flag=false;
+        //case 1 : less more less
+        int more=0,less=0;
+        int l=-1,r=-1;
         for(int i=0;i<n;i++){
-            if(s[i]=='>')idx.push_back(i+1);
-        }
-        vector<ll>ans(n+1,-1);
-        ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
-            curr--;
-        }
-        for(int i=1;i<=n;i++){
-            if(ans[i]==-1){
-                ans[i]=curr;
-                curr--;
+            if(a[i]>k)more++;
+            else less++;
+            if(less>=more){
+                l=i;break;
             }
         }
-        for(int i=1;i<=n;i++)cout<<ans[i]<<" ";
-        cout<<endl;
+        more=0,less=0;
+        for(int i=n-1;i>=0;i--){
+            if(a[i]>k)more++;
+            else less++;
+            if(less>=more){
+                r=i;break;
+            }
+        }
+        if(l+1<r && l>=0 && r>=0 && l<n && r<n){
+            yes();
+            continue;
+        }
+
+        //case 2: less less more
+        if(check(a,k)){yes();continue;}
+
+        //case 3: more less less
+        reverse(a.begin(),a.end());
+        if(check(a,k)){yes();continue;}
+        no();
     }
 }

@@ -99,8 +99,8 @@ int main(){
         }
         vector<ll>ans(n+1,-1);
         ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
+        for(int i=idx.size()-1;i>=0;i--){
+            ans[idx[i]+1]=curr;
             curr--;
         }
         for(int i=1;i<=n;i++){

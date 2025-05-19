@@ -83,7 +83,24 @@ ll log(ll a,ll l){
     return ans;
 }
 
-
+ll f(vector<ll>&a,ll i,ll j,ll prev,vector<vector<ll>>&dp){
+    if(i==a.size()){
+        if(j==0)return 0;
+        return INT_MIN;
+    }
+    // if(dp[i][j]!=-1)return dp[i][j];
+    if(j==0){
+        ll pick = f(a,i+1,1,i,dp);
+        ll np = f(a,i+1,0,prev,dp);
+        return dp[i][j]=max(pick,np);
+    }
+    else{
+        ll pick = INT_MIN;
+        if(a[i]==a[prev])pick = f(a,i+1,0,prev,dp)+i-prev+1;
+        ll np = f(a,i+1,1,prev,dp);
+        return dp[i][j]=max(pick,np);
+    }
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
@@ -91,25 +108,9 @@ int main(){
     while(t--){
         ll n;
         cin>>n;
-        string s;
-        cin>>s;
-        vector<ll>idx;
-        for(int i=0;i<n;i++){
-            if(s[i]=='>')idx.push_back(i+1);
-        }
-        vector<ll>ans(n+1,-1);
-        ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
-            curr--;
-        }
-        for(int i=1;i<=n;i++){
-            if(ans[i]==-1){
-                ans[i]=curr;
-                curr--;
-            }
-        }
-        for(int i=1;i<=n;i++)cout<<ans[i]<<" ";
-        cout<<endl;
+        vector<ll>a(n);
+        input(a,n);
+        vector<vector<ll>>dp(n+1,vector<ll>(2,-1));
+        cout<<f(a,0,0,0,dp)<<endl;
     }
 }

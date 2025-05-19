@@ -89,27 +89,27 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n;
-        cin>>n;
-        string s;
-        cin>>s;
-        vector<ll>idx;
-        for(int i=0;i<n;i++){
-            if(s[i]=='>')idx.push_back(i+1);
+        ll n;cin>>n;
+        ll a[n];
+        input(a,n);
+        sort(a,a+n);
+        map<ll,ll>m;
+        for(int i=0;i<n;i++)m[a[i]]++;
+        map<ll,ll>mpp;
+        for(auto it:m){
+            mpp[it.second]++;
         }
-        vector<ll>ans(n+1,-1);
-        ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
-            curr--;
-        }
+        vector<ll>arr;
+        ll ans=0;
         for(int i=1;i<=n;i++){
-            if(ans[i]==-1){
-                ans[i]=curr;
-                curr--;
+            if(mpp[i]){ans+=i; mpp[i]--;}
+            else arr.push_back(i);
+            while(mpp[i] && arr.size()){
+                mpp[i]--;
+                ans+=arr.back();
+                arr.pop_back();
             }
         }
-        for(int i=1;i<=n;i++)cout<<ans[i]<<" ";
-        cout<<endl;
+        cout<<ans<<endl;    
     }
 }

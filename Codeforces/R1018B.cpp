@@ -89,27 +89,25 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n;
-        cin>>n;
-        string s;
-        cin>>s;
-        vector<ll>idx;
+        ll n,k;
+        cin>>n>>k;
+        ll l[n],r[n];
+        input(l,n);
+        input(r,n);
+        ll ans=0;
+        vector<ll>v;
         for(int i=0;i<n;i++){
-            if(s[i]=='>')idx.push_back(i+1);
+            ans+=max(l[i],r[i]);
+            v.push_back(min(l[i],r[i]));
         }
-        vector<ll>ans(n+1,-1);
-        ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
-            curr--;
-        }
-        for(int i=1;i<=n;i++){
-            if(ans[i]==-1){
-                ans[i]=curr;
-                curr--;
+        sort(v.begin(),v.end()); k--;
+        for(int i=v.size()-1;i>=0;i--){
+            if(k>0){
+                ans+=v[i];
+                k--;
             }
+            else break;
         }
-        for(int i=1;i<=n;i++)cout<<ans[i]<<" ";
-        cout<<endl;
+        cout<<ans+1<<endl;        
     }
 }

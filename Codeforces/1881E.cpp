@@ -91,25 +91,16 @@ int main(){
     while(t--){
         ll n;
         cin>>n;
-        string s;
-        cin>>s;
-        vector<ll>idx;
-        for(int i=0;i<n;i++){
-            if(s[i]=='>')idx.push_back(i+1);
+        vector<ll>a(n);
+        input(a,n);
+        vector<ll>dp(n+1,0);
+        dp[n-1]=1;
+        for(int i=n-2;i>=0;i--){
+            ll pick = INT_MAX;
+            if(i+a[i]<n)pick = dp[i+a[i]+1];
+            ll np = dp[i+1]+1;
+            dp[i]=min(pick,np);
         }
-        vector<ll>ans(n+1,-1);
-        ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
-            curr--;
-        }
-        for(int i=1;i<=n;i++){
-            if(ans[i]==-1){
-                ans[i]=curr;
-                curr--;
-            }
-        }
-        for(int i=1;i<=n;i++)cout<<ans[i]<<" ";
-        cout<<endl;
+        cout<<dp[0]<<endl;
     }
 }

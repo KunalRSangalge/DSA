@@ -83,33 +83,47 @@ ll log(ll a,ll l){
     return ans;
 }
 
-
+ll dfs(vector<vector<ll>>&adj,ll node,vector<ll>&vis,ll ans,ll c){
+    vis[node]=c;
+    ans++;
+    for(auto it : adj[node]){
+        if(!vis[it]){
+            ans+=dfs(adj,it,vis,0,c);
+        }
+    }
+    return ans;
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
-    cin>>t;
+    // cin>>t;
     while(t--){
-        ll n;
-        cin>>n;
-        string s;
-        cin>>s;
-        vector<ll>idx;
-        for(int i=0;i<n;i++){
-            if(s[i]=='>')idx.push_back(i+1);
-        }
-        vector<ll>ans(n+1,-1);
-        ll curr=n;
-        for(int i=0;i<idx.size();i++){
-            ans[idx[i]]=curr;
-            curr--;
-        }
-        for(int i=1;i<=n;i++){
-            if(ans[i]==-1){
-                ans[i]=curr;
-                curr--;
+        ll n,m;
+        cin>>n>>m;
+        vector<vector<ll>>adj(n+1);
+        for(int i=0;i<m;i++){
+            ll size; cin>>size;
+            vector<ll>temp(size,0);
+            for(int j=0;j<size;j++)cin>>temp[j];
+            for(int j=0;j<size-1;j++){
+                adj[temp[j]].push_back(temp[j+1]);
+                adj[temp[j+1]].push_back(temp[j]);
             }
         }
-        for(int i=1;i<=n;i++)cout<<ans[i]<<" ";
-        cout<<endl;
+        vector<ll>vis(n+1,0);
+        vector<ll>ans;
+        ll c=1;
+        for(int i=1;i<=n;i++){
+            if(!vis[i]){
+                ll x = dfs(adj,i,vis,0,c);
+                ans.push_back(x);
+                cout<<x<<" ";
+                c++;
+            }
+            else{
+                cout<<ans[vis[i]-1]<<" ";
+            }
+        }cout<<endl;
     }
+
 }
