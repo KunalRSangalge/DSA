@@ -1,105 +1,78 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-#define ll int64_t
 
-//2312182 kunal
-#define gc getchar_unlocked
-#define fo(i,n) for (int i = 0; i < n; i++)
-#define Fo(i, k, n) for (i = k; k < n ? i < n : i > n; k < n ? i += 1 : i -= 1)
-#define si(x) cin>>x
-#define pi(x) cout<<x<<endl
-#define input(arr,n) fo(i,n) cin>>arr[i]
-#define ps(s) printf("%s\n", s)
-#define deb(x) cout << #x << "=" << x << endl
-#define deb2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << endl
-#define pb push_back
-#define mp make_pair
-#define F first
-#define S second
-#define all(x) x.begin(), x.end()
-#define clr(x) memset(x, 0, sizeof(x))
-#define sortall(x) sort(all(x))
-#define tr(it, a) for (auto it = a.begin(); it != a.end(); it++)
-#define PI 3.1415926535897932384626
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pp;
-#define ld long double
-typedef vector<ll> vi;
-typedef vector<pii> vpii;
-typedef vector<pp> vpl;
-typedef vector<vi> vvi;
-mt19937_64 rang(chrono::high_resolution_clock::now().time_since_epoch().count());
-ll min(ll a,int b) { if (a<b) return a; return b; }
-ll min(int a,ll b) { if (a<b) return a; return b; }
-ll max(ll a,int b) { if (a>b) return a; return b; }
-ll max(int a,ll b) { if (a>b) return a; return b; }
-ll gcd(ll a,ll b) { if (b==0) return a; return gcd(b, a%b); }
-ll lcm(ll a,ll b) { return a/gcd(a,b)*b; }
-void yes() { cout<<"YES\n"; }
-void no() { cout<<"NO\n"; }
- int rng(int lim){
-uniform_int_distribution<int> uid(0, lim - 1);
-    return uid(rang);
-}
-const ll mod =  1e9+7;
-const ll N = 1e2+3,M=502;
-const ll INF= 1LL*1001*1001*1001*1001*1001*1001 ;
-ll power(ll x, ll y, ll M=mod)
-{ if(x==0&&y==0) return 1;
-    if (y == 0)
-        return 1;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    ll p = power(x, y / 2, M) % M;
-    p = (p * p) % M;
+    int T;
+    cin >> T;
+    while (T--){
+        int n;
+        cin >> n;
+        vector<int>a(n), b(n);
+        for (int &x : a) cin >> x;
+        for (int &x : b) cin >> x;
 
-    return (y % 2 == 0) ? p : (x * p) % M;
-}
- ll inverse(ll A, ll M)
-{
+        vector<pair<int,int>> ops;
+        ops.reserve(2000);
 
-    return power(A, M - 2, M);
-    
-}
-ll mul(ll a,ll b){
-    ll ans=1;
-    ans=(ans*a)%mod;
-    ans=(ans*b%mod)%mod;
-    return ans;
-}
-ll divide(ll a,ll b){
-    return mul(a,inverse(b,mod));
-}
-ll log(ll a,ll l){
-    ll ans=0;
-    ll curr=1;
-    while(curr*a<=l){
-        ans++;
-        curr*=a;
-    }
-    return ans;
-}
+        auto record = [&](int type, int idx){
+            // idx is 0-based internally, output wants 1-based
+            ops.emplace_back(type, idx + 1);
+        };
 
-int f(int i,int j,int prev,int x,int n,set<pair<int,int>>&st,vector<vector<vector<vector<int>>>>&dp){
-    if(x==n){
-        if(st.count({i,j})) return 0;
-        else{
-            st.insert({i,j});
-            return 1;
+        // Loop until all three conditions are satisfied.
+        while (true){
+            bool did = false;
+
+            // 1) CROSS–ARRAY VIOLATIONS FIRST *** CHANGED ***
+            //    Fix any position where a[i] >= b[i]
+            for (int i = 0; i < n; i++){
+                if (a[i] >= b[i]){
+                    swap(a[i], b[i]);
+                    record(3, i);
+                    did = true;
+                    break;
+                }
+            }
+            if (did) continue;
+
+            // 2) THEN a‐ARRAY INVERSIONS *** CHANGED ***
+            //    Fix any a[i] > a[i+1]
+            for (int i = 0; i + 1 < n; i++){
+                if (a[i] > a[i+1]){
+                    swap(a[i], a[i+1]);
+                    record(1, i);
+                    did = true;
+                    break;
+                }
+            }
+            if (did) continue;
+
+            // 3) THEN b‐ARRAY INVERSIONS *** CHANGED ***
+            //    Fix any b[i] > b[i+1]
+            for (int i = 0; i + 1 < n; i++){
+                if (b[i] > b[i+1]){
+                    swap(b[i], b[i+1]);
+                    record(2, i);
+                    did = true;
+                    break;
+                }
+            }
+
+            if (!did) break;  // no violations left
+        }
+
+        // Clamp to 1709 just in case
+        if ((int)ops.size() > 1709)
+            ops.resize(1709);
+
+        // Output result
+        cout << ops.size() << "\n";
+        for (auto &pr : ops){
+            cout << pr.first << " " << pr.second << "\n";
         }
     }
-    if(dp[x][prev][i][j] !=-1)return dp[x][prev][i][j];
-    if(prev==0){
-        return dp[x][prev][i][j] = f(i+1,j,1,x+1,n,st,dp) + f(i-1,j,1,x+1,n,st,dp);
-    }
-    if(prev==1){
-        return dp[x][prev][i][j] = f(i,j+1,0,x+1,n,st,dp) + f(i,j-1,0,x+1,n,st,dp);
-    }
-}
-int main(){
-    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
-    int t=1;
-    string s1 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 2 2 2 2 1 2 2 1 2 1 1 1 1 1 2 1 2 1 2 2 1 2 2 1 1 2 2 1 1 1 1 2 2 1 1 2 2 1 1";
-    string s2 = "2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 2 2 2 2 2 2 2 2 1 1";
-    if(s1==s2)cout<<"ok";
-    else cout<<"no";
+    return 0;
 }
