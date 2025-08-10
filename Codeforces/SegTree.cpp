@@ -5,8 +5,10 @@ using namespace std;
 class SGTree{   
     public: 
         vector<ll>seg;
+        vector<ll>lazy;
         SGTree(ll n){
             seg.resize(4*n+1);
+            lazy.resize(4*n+1);
         }
         void build(ll ind,ll low,ll high,ll arr[]){
             if(low==high){
