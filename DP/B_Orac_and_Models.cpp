@@ -79,59 +79,47 @@ ll log(ll a,ll l){
     return ans;
 }
 
+void createSieve(vector<bool>&sieve,int N){
+    for(int i=2;i*i<=N;i++){
+        if(sieve[i]){
+            for(int j=i*i;j<=N;j+=i)
+            sieve[j]=false;
+        }
+    }
+}
+ll lis(ll i,ll j,vector<ll>&a,vector<vector<ll>>&dp){
+    if(i==a.size())return 0;
+    if(dp[i][j+1]!=-1)return dp[i][j+1];
 
+    ll pick = 0, np=0;
+    if(j==-1 || a[i]>a[j]) pick = 1 + lis(i+1,i,a,dp);
+    np = lis(i+1,j,a,dp);
+    return dp[i][j+1]=max(pick,np);
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        ll n;cin>>n;
-        ll a[n];
-        input(a,n);
-        if(n==1){
-            cout<<1<<" "<<1<<endl;
-            continue;
-        }
-        ll i=0,j=0;
-        map<int,int>mpp;
-        for(int i=0;i<n;i++)mpp[a[i]]++;
+        ll n;
+        cin>>n;
+        ll a[n+1];
+        for(int i=1;i<=n;i++)cin>>a[i];
 
-        ll temp = n;
-        ll score=temp-mpp.size();
-        ll l=-1,r=-1;
-        ll size=-1;
-        mpp[a[i]]--; temp--;
-        if(mpp[a[i]]==0){mpp.erase(a[i]);}
-        while(j<n){
-            j++;
-            mpp[a[j]]--; temp--;
-            if(mpp[a[j]]==0){mpp.erase(a[j]);}
-            ll temp_score = temp-mpp.size();
-            if(temp_score>score){
-                score=temp_score;
-                l=i+1;
-                r=j+1;
-                size=r-l;
-            }
-            else if(temp_score==score){
-                if(size==-1 || (j-i>size)){
-                    l=i+1;
-                    r=j+1;
-                    size=r-l;
-                }
-            }
-            else{
-                while(i<j){
-                    if(temp_score>=score)break;
-                    mpp[a[i]]++; temp++; i++;
-                    temp_score = temp-mpp.size();
+        // vector<vector<ll>>dp(n+1,vector<ll>(n+1,0));
+        vector<ll>dp(n+2,1);
+        for(int i=2;i<=n;i++){
+            for(int j=1;j<=sqrt(i);j++){
+                if((i)%(j)==0){
+                    if(a[i]>a[j]){
+                        dp[i]=max(dp[i],1+dp[j]);
+                    }
+                    if(a[i]>a[i/j]){
+                        dp[i]=max(dp[i],dp[i/j]+1);
+                    }
                 }
             }
         }
-        if(l==-1&&r==-1){
-            cout<<0<<endl;
-            continue;
-        }
-        cout<<l<<" "<<r<<endl;
+        cout<<*max_element(dp.begin(),dp.end())<<endl;
     }
 }

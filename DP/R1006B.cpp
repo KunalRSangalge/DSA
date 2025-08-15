@@ -85,53 +85,23 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n;cin>>n;
-        ll a[n];
-        input(a,n);
-        if(n==1){
-            cout<<1<<" "<<1<<endl;
-            continue;
+        ll n;
+        cin>>n;
+        string s;
+        cin>>s;
+        ll up=0,down=0;
+        for(int i=0;i<n;i++){
+            if(s[i]=='-')up++;
+            else if(s[i]=='_')down++;
         }
-        ll i=0,j=0;
-        map<int,int>mpp;
-        for(int i=0;i<n;i++)mpp[a[i]]++;
-
-        ll temp = n;
-        ll score=temp-mpp.size();
-        ll l=-1,r=-1;
-        ll size=-1;
-        mpp[a[i]]--; temp--;
-        if(mpp[a[i]]==0){mpp.erase(a[i]);}
-        while(j<n){
-            j++;
-            mpp[a[j]]--; temp--;
-            if(mpp[a[j]]==0){mpp.erase(a[j]);}
-            ll temp_score = temp-mpp.size();
-            if(temp_score>score){
-                score=temp_score;
-                l=i+1;
-                r=j+1;
-                size=r-l;
-            }
-            else if(temp_score==score){
-                if(size==-1 || (j-i>size)){
-                    l=i+1;
-                    r=j+1;
-                    size=r-l;
-                }
-            }
-            else{
-                while(i<j){
-                    if(temp_score>=score)break;
-                    mpp[a[i]]++; temp++; i++;
-                    temp_score = temp-mpp.size();
-                }
-            }
+        if(up<2 || down<1){cout<<0<<endl;continue;}
+        ll ans=0;
+        if(up%2==0){
+            ans=(up/2)*(up/2)*down;
         }
-        if(l==-1&&r==-1){
-            cout<<0<<endl;
-            continue;
+        else{
+            ans=(up/2+1)*(up/2)*down;
         }
-        cout<<l<<" "<<r<<endl;
+        cout<<ans<<endl;
     }
 }

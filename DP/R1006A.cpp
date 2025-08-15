@@ -85,53 +85,12 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n;cin>>n;
-        ll a[n];
-        input(a,n);
-        if(n==1){
-            cout<<1<<" "<<1<<endl;
-            continue;
-        }
-        ll i=0,j=0;
-        map<int,int>mpp;
-        for(int i=0;i<n;i++)mpp[a[i]]++;
-
-        ll temp = n;
-        ll score=temp-mpp.size();
-        ll l=-1,r=-1;
-        ll size=-1;
-        mpp[a[i]]--; temp--;
-        if(mpp[a[i]]==0){mpp.erase(a[i]);}
-        while(j<n){
-            j++;
-            mpp[a[j]]--; temp--;
-            if(mpp[a[j]]==0){mpp.erase(a[j]);}
-            ll temp_score = temp-mpp.size();
-            if(temp_score>score){
-                score=temp_score;
-                l=i+1;
-                r=j+1;
-                size=r-l;
-            }
-            else if(temp_score==score){
-                if(size==-1 || (j-i>size)){
-                    l=i+1;
-                    r=j+1;
-                    size=r-l;
-                }
-            }
-            else{
-                while(i<j){
-                    if(temp_score>=score)break;
-                    mpp[a[i]]++; temp++; i++;
-                    temp_score = temp-mpp.size();
-                }
-            }
-        }
-        if(l==-1&&r==-1){
-            cout<<0<<endl;
-            continue;
-        }
-        cout<<l<<" "<<r<<endl;
+        ll n,k,p;
+        cin>>n>>k>>p;
+        ll x;
+        if(abs(k)%p)x=abs(k)/p+1;
+        else x=abs(k)/p;
+        if(x>n)cout<<-1<<endl;
+        else cout<<x<<endl;
     }
 }

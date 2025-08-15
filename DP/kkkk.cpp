@@ -79,59 +79,46 @@ ll log(ll a,ll l){
     return ans;
 }
 
-
+bool check(string str,string temp){
+    int s = str.size();
+    for(int i=s-1;i>=0;i--){
+        if(temp[i]=='1' && str[i]=='0')return false;
+    }
+    return true;
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        ll n;cin>>n;
-        ll a[n];
-        input(a,n);
-        if(n==1){
-            cout<<1<<" "<<1<<endl;
+        ll n,x;
+        cin>>n>>x;
+        string str = bitset<30>(x).to_string();
+        ll curr=0;
+        for(int i=0;i<n;i++){
+            curr|=i;
+        }
+        if(curr==x){
+            for(int i=0;i<n;i++)cout<<i<<" ";
+            cout<<endl;
             continue;
         }
-        ll i=0,j=0;
-        map<int,int>mpp;
-        for(int i=0;i<n;i++)mpp[a[i]]++;
-
-        ll temp = n;
-        ll score=temp-mpp.size();
-        ll l=-1,r=-1;
-        ll size=-1;
-        mpp[a[i]]--; temp--;
-        if(mpp[a[i]]==0){mpp.erase(a[i]);}
-        while(j<n){
-            j++;
-            mpp[a[j]]--; temp--;
-            if(mpp[a[j]]==0){mpp.erase(a[j]);}
-            ll temp_score = temp-mpp.size();
-            if(temp_score>score){
-                score=temp_score;
-                l=i+1;
-                r=j+1;
-                size=r-l;
+        cout<<x<<" ";
+        ll count=0;
+        count++;
+        for(int i=0;i<n;i++){
+            if(count==n)continue;
+            string temp = bitset<30>(i).to_string();
+            if(check(str,temp)){
+                cout<<i<<" ";
+                count++;
             }
-            else if(temp_score==score){
-                if(size==-1 || (j-i>size)){
-                    l=i+1;
-                    r=j+1;
-                    size=r-l;
-                }
-            }
-            else{
-                while(i<j){
-                    if(temp_score>=score)break;
-                    mpp[a[i]]++; temp++; i++;
-                    temp_score = temp-mpp.size();
-                }
-            }
+            else break;
         }
-        if(l==-1&&r==-1){
-            cout<<0<<endl;
-            continue;
+        while(count<n){
+            cout<<0<<" ";
+            count++;
         }
-        cout<<l<<" "<<r<<endl;
+        cout<<endl;
     }
 }
