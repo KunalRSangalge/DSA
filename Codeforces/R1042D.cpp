@@ -82,28 +82,43 @@ ll log(ll a,ll l){
     }
     return ans;
 }
-
-
+ll dfs(vector<vector<ll>>&adj,vector<ll>&vis,vector<ll>&indeg,ll node,ll start){
+    vis[node]=1;
+    ll ans = 0;
+    for(auto it : adj[node]){
+        if(!vis[it]){
+            ans += dfs(adj,vis,indeg,it,start);
+        }
+    }
+    if(indeg[node]==1 && node!=start)return 1;
+    return ans;
+}
 int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
     while(t--){
-        ll n,k; cin>>n>>k;
-        unordered_map<ll,ll>cntS,cntT;
-        for(int i=0;i<n;i++){
-            ll x ; cin>> x;
-            ll r = x%k;
-            ll y = min(r,(k-r)%k);
-            cntS[y]++;
+        ll n;
+        cin>>n;
+        vector<vector<ll>>adj(n+1);
+        vector<ll>indeg(n+1,0);
+        for(int i=0;i<n-1;i++){
+            ll u,v; cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+            indeg[u]++; indeg[v]++;
         }
-        for(int i=0;i<n;i++){
-            ll x ; cin>>x; 
-            ll r = x % k;
-            ll y = min(r,(k-r)%k);
-            cntT[y]++; 
+        vector<ll>count(n+1,0);
+        vector<ll>vis(n+1,0);
+        ll num_of_leaves = 0;
+        for(int i=1;i<=n;i++){
+            if(indeg[i]==1){
+                count[adj[i][0]]++;
+                if(indeg[adj[i][0]]==1)count[adj[i][0]]++;
+                num_of_leaves++;
+            }
         }
-        if(cntS == cntT)yes();
-        else no();
+        ll maxi = *max_element(count.begin(),count.end());
+        cout<<num_of_leaves-maxi<<endl;
     }
 }

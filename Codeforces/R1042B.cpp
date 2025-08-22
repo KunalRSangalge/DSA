@@ -89,21 +89,18 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n,k; cin>>n>>k;
-        unordered_map<ll,ll>cntS,cntT;
-        for(int i=0;i<n;i++){
-            ll x ; cin>> x;
-            ll r = x%k;
-            ll y = min(r,(k-r)%k);
-            cntS[y]++;
+        ll n; cin>>n;
+        for (int i = 1; i <= n; ++i) {
+            int absval;
+            if (i%2==1) {
+                absval = 1;            
+            } else {
+                absval = (i == n ? 2 : 3);
+            }
+            int val = (i % 2 == 1) ? -absval : absval;
+            if (i > 1) cout << ' ';
+            cout << val;
         }
-        for(int i=0;i<n;i++){
-            ll x ; cin>>x; 
-            ll r = x % k;
-            ll y = min(r,(k-r)%k);
-            cntT[y]++; 
-        }
-        if(cntS == cntT)yes();
-        else no();
+        cout << '\n';
     }
 }

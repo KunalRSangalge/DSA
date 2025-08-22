@@ -88,22 +88,24 @@ int main(){
     ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
     int t=1;
     cin>>t;
+    ll N = 22;
+    vector<ll>p3(N+1,1);
+    for(int i=1;i<=N;i++){
+        p3[i] = p3[i-1]*3;
+    }
     while(t--){
-        ll n,k; cin>>n>>k;
-        unordered_map<ll,ll>cntS,cntT;
-        for(int i=0;i<n;i++){
-            ll x ; cin>> x;
-            ll r = x%k;
-            ll y = min(r,(k-r)%k);
-            cntS[y]++;
+        ll n; cin>>n;
+        ll ans=0,k=0;
+        while(n>0){
+            ll d = n%3;
+            if(d){
+                ll cost = p3[k+1];
+                if(k>=1) cost += k*p3[k-1];
+                ans+=cost*d;
+            }
+            n/=3;
+            k++;
         }
-        for(int i=0;i<n;i++){
-            ll x ; cin>>x; 
-            ll r = x % k;
-            ll y = min(r,(k-r)%k);
-            cntT[y]++; 
-        }
-        if(cntS == cntT)yes();
-        else no();
+        cout<<ans<<endl;
     }
 }

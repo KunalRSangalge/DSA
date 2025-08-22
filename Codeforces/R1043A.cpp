@@ -89,21 +89,20 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n,k; cin>>n>>k;
-        unordered_map<ll,ll>cntS,cntT;
-        for(int i=0;i<n;i++){
-            ll x ; cin>> x;
-            ll r = x%k;
-            ll y = min(r,(k-r)%k);
-            cntS[y]++;
+        ll n;cin>>n;
+        string a; cin>>a;
+        ll m; cin>>m;
+        string b; cin>>b;
+        string c; cin>>c;
+        string ans = "";
+        string last = "";
+        for(int i=0;i<c.size();i++){
+            if(c[i]=='V')ans+=b[i];
+            else last+=b[i];
         }
-        for(int i=0;i<n;i++){
-            ll x ; cin>>x; 
-            ll r = x % k;
-            ll y = min(r,(k-r)%k);
-            cntT[y]++; 
-        }
-        if(cntS == cntT)yes();
-        else no();
+        reverse(ans.begin(),ans.end());
+        ans+=a;
+        ans+=last;
+        cout<<ans<<endl;
     }
 }

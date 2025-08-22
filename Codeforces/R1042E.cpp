@@ -89,21 +89,19 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n,k; cin>>n>>k;
-        unordered_map<ll,ll>cntS,cntT;
-        for(int i=0;i<n;i++){
-            ll x ; cin>> x;
-            ll r = x%k;
-            ll y = min(r,(k-r)%k);
-            cntS[y]++;
+        ll n;cin>>n;
+        vector<ll>a(n),b(n);
+        input(a,n); input(b,n);
+        if(b[n-1]!=a[n-1]){no(); continue;}
+        bool flag=true;
+        set<ll>st;
+        st.insert(a[n-1]);
+        for(int i=n-2;i>=0;i--){
+            ll val = a[i]^b[i];
+            if(val == 0 || val == b[i+1] || val == a[i+1])continue;
+            flag=false; break;
         }
-        for(int i=0;i<n;i++){
-            ll x ; cin>>x; 
-            ll r = x % k;
-            ll y = min(r,(k-r)%k);
-            cntT[y]++; 
-        }
-        if(cntS == cntT)yes();
+        if(flag)yes();
         else no();
     }
 }

@@ -83,27 +83,56 @@ ll log(ll a,ll l){
     return ans;
 }
 
-
-int main(){
-    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
-    int t=1;
-    cin>>t;
-    while(t--){
-        ll n,k; cin>>n>>k;
-        unordered_map<ll,ll>cntS,cntT;
-        for(int i=0;i<n;i++){
-            ll x ; cin>> x;
-            ll r = x%k;
-            ll y = min(r,(k-r)%k);
-            cntS[y]++;
-        }
-        for(int i=0;i<n;i++){
-            ll x ; cin>>x; 
-            ll r = x % k;
-            ll y = min(r,(k-r)%k);
-            cntT[y]++; 
-        }
-        if(cntS == cntT)yes();
-        else no();
+vector<int>getdig(ll n){
+    vector<int>dig;
+    int cur = n%10;
+    bool flag=true;
+    while(n){
+        if(n%10 != cur){flag=false; break;}
+        dig.push_back(n%10);
+        n/=10;
     }
+    if(!flag)return {};
+    reverse(dig.begin(),dig.end());
+    return dig;
+}
+void solve() {
+    ll n; cin>>n;
+    vector<ll> solutions;
+
+    ll p10 = 1;
+    for (int k = 1; k <= 18; ++k) {
+        if (p10 > LLONG_MAX / 10) {
+            break;
+        } 
+        p10*=10;
+        ll divisor = p10 + 1;
+        if (divisor > n) {
+            break;
+        }
+        if (n % divisor == 0) {
+            solutions.push_back(n / divisor);
+        }
+    }
+    
+    sort(solutions.begin(), solutions.end());
+    cout << solutions.size() << endl;
+    
+    for (ll x : solutions) {
+        cout << " " << x;
+    }
+    cout << "\n";
+}
+
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
+
+    int t;
+    std::cin >> t;
+    while (t--) {
+        solve();
+    }
+
+    return 0;
 }

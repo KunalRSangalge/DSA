@@ -89,21 +89,14 @@ int main(){
     int t=1;
     cin>>t;
     while(t--){
-        ll n,k; cin>>n>>k;
-        unordered_map<ll,ll>cntS,cntT;
-        for(int i=0;i<n;i++){
-            ll x ; cin>> x;
-            ll r = x%k;
-            ll y = min(r,(k-r)%k);
-            cntS[y]++;
+        int n;
+        cin >> n;
+        vector<int> a(n), b(n);
+        input(a,n); input(b,n);
+        long long ans = 0;
+        for (int i = 0; i < n; ++i) {
+            if (a[i] > b[i]) ans += (a[i] - b[i]);
         }
-        for(int i=0;i<n;i++){
-            ll x ; cin>>x; 
-            ll r = x % k;
-            ll y = min(r,(k-r)%k);
-            cntT[y]++; 
-        }
-        if(cntS == cntT)yes();
-        else no();
+        cout<<ans+1<<'\n';
     }
 }
